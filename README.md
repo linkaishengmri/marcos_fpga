@@ -6,6 +6,8 @@ Steps to compile the bitstream and XSA files:
 
 - git submodule update --init
 
+- git submodule update --remote hdl/submodules/marga
+
 (next 3 steps optional, needed to run the loopback test)
 
 cd ..
