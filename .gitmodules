@@ -4,7 +4,7 @@
 	branch = master
 [submodule "hdl/submodules/marga"]
 	path = hdl/submodules/marga
-	url = https://github.com/vnegnev/marga.git
+	url = https://github.com/linkaishengmri/marga.git
 	branch = master
 [submodule "hdl/submodules/CIC"]
 	path = hdl/submodules/CIC
