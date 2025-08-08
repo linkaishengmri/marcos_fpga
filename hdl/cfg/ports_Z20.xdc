@@ -190,6 +190,10 @@ set_property PACKAGE_PIN Y9 [get_ports rx_gate_o]
 set_property IOSTANDARD LVCMOS33 [get_ports trig_i]
 set_property PACKAGE_PIN Y8 [get_ports trig_i]
 
+# Local Oscillator clk output
+set_property PACKAGE_PIN Y7 [get_ports lo_clk_out]
+set_property IOSTANDARD LVCMOS33 [get_ports lo_clk_out]
+
 ### SATA connector
 
 set_property IOSTANDARD DIFF_HSTL_I_18 [get_ports {ext_clk_0_p_o[0]}]
