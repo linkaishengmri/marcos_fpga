@@ -287,19 +287,18 @@ connect_bd_net [get_bd_pins marga/trig_o] [get_bd_ports trig_p_o]
 cell xilinx.com:ip:oddr:1.0 oddr_0
 connect_bd_net [get_bd_pins pll_0/clk_out1] [get_bd_pins oddr_0/clk_in]
 
-# lo_out forward
-cell xilinx.com:ip:oddr:1.0 oddr_1
-connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_pins oddr_1/clk_in]
 
 cell xilinx.com:ip:util_ds_buf:2.1 ext_clk_0_buf {
     C_BUF_TYPE OBUFDS
 }
+
 create_bd_port -dir O -type clk ext_clk_0_p_o
 create_bd_port -dir O -type clk ext_clk_0_n_o
 create_bd_port -dir O -type clk lo_clk_out
 
+connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_ports lo_clk_out]
 connect_bd_net [get_bd_pins oddr_0/clk_out] [get_bd_pins ext_clk_0_buf/OBUF_IN]
-connect_bd_net [get_bd_pins oddr_1/clk_out] [get_bd_ports lo_clk_out]
+
 
 connect_bd_net [get_bd_pins ext_clk_0_buf/OBUF_DS_P] [get_bd_ports ext_clk_0_p_o]
 connect_bd_net [get_bd_pins ext_clk_0_buf/OBUF_DS_N] [get_bd_ports ext_clk_0_n_o]
