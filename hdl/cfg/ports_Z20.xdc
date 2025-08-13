@@ -194,6 +194,23 @@ set_property PACKAGE_PIN Y8 [get_ports trig_i]
 set_property PACKAGE_PIN Y7 [get_ports lo_clk_out]
 set_property IOSTANDARD LVCMOS33 [get_ports lo_clk_out]
 
+# Rx gain control output
+set_property IOSTANDARD LVCMOS33 [get_ports gain_si_o]
+set_property IOSTANDARD LVCMOS33 [get_ports gain_clk_o]
+set_property IOSTANDARD LVCMOS33 [get_ports gain_le_o]
+set_property SLEW SLOW [get_ports gain_si_o]
+set_property SLEW SLOW [get_ports gain_clk_o]
+set_property SLEW SLOW [get_ports gain_le_o]
+set_property DRIVE 4 [get_ports gain_si_o]
+set_property DRIVE 4 [get_ports gain_clk_o]
+set_property DRIVE 4 [get_ports gain_le_o]
+set_property PULLTYPE PULLUP [get_ports gain_si_o]
+set_property PULLTYPE PULLUP [get_ports gain_clk_o]
+set_property PULLTYPE PULLUP [get_ports gain_le_o]
+set_property PACKAGE_PIN Y12 [get_ports gain_si_o]
+set_property PACKAGE_PIN Y6 [get_ports gain_clk_o]
+set_property PACKAGE_PIN Y13 [get_ports gain_le_o]
+
 ### SATA connector
 
 set_property IOSTANDARD DIFF_HSTL_I_18 [get_ports {ext_clk_0_p_o[0]}]

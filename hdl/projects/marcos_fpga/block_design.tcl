@@ -234,6 +234,17 @@ cell xilinx.com:ip:xlslice:1.0 led_slice {
 } {
     Din marga/leds_o
 }
+
+# RX gain selection 
+cell xilinx.com:ip:xlslice:1.0 rxgain_slice {
+    DIN_FROM 0
+    DIN_TO 0
+    DIN_WIDTH 3
+    # DOUT_WIDTH 1 # might not need this
+} {
+    Din marga/gain_sel_o
+}
+
 cell xilinx.com:ip:xlconcat:2.1 led_concat {
     NUM_PORTS 2
     IN0_WIDTH 7
@@ -265,6 +276,7 @@ create_bd_port -dir I -type data exp_p_tri_io_i
 cell xilinx.com:ip:xlconcat:2.1 pio_concat_0 {
     NUM_PORTS 6
 } {
+    In0 rxgain_slice/Dout
     In2 marga/trig_o
     In3 marga/fhdo_clk_o
     In4 marga/fhdo_ssn_o
@@ -294,9 +306,6 @@ cell xilinx.com:ip:util_ds_buf:2.1 ext_clk_0_buf {
 
 create_bd_port -dir O -type clk ext_clk_0_p_o
 create_bd_port -dir O -type clk ext_clk_0_n_o
-create_bd_port -dir O -type clk lo_clk_out
-
-connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_ports lo_clk_out]
 connect_bd_net [get_bd_pins oddr_0/clk_out] [get_bd_pins ext_clk_0_buf/OBUF_IN]
 
 
@@ -313,6 +322,17 @@ if {$part_variant=="Z20"} {
     create_bd_port -dir I -type data trig_i
     connect_bd_net [get_bd_ports trig_i] [get_bd_pins marga/trig_i]
 
+    # LO clock output
+    create_bd_port -dir O -type clk lo_clk_out
+    connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_ports lo_clk_out]
+
+    create_bd_port -dir O -type clk gain_si_o
+    connect_bd_net [get_bd_pins marga/gain_si_o] [get_bd_ports gain_si_o]
+    create_bd_port -dir O -type clk gain_clk_o
+    connect_bd_net [get_bd_pins marga/gain_clk_o] [get_bd_ports gain_clk_o]
+    create_bd_port -dir O -type clk gain_le_o
+    connect_bd_net [get_bd_pins marga/gain_le_o] [get_bd_ports gain_le_o]
+    
 } elseif {$part_variant=="Z10"} {
     # Not enough pins on Z10 for trigger input (TODO: add trig_i elsewhere so
     # that both Z10 and Z20 can be externally triggered)
