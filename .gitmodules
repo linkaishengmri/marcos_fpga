@@ -4,8 +4,8 @@
 	branch = master
 [submodule "hdl/submodules/marga"]
 	path = hdl/submodules/marga
-	url = https://github.com/vnegnev/marga.git
-	branch = master
+	url = https://github.com/linkaishengmri/marga.git
+	branch = mimo_rxgain
 [submodule "hdl/submodules/CIC"]
 	path = hdl/submodules/CIC
 	url = https://github.com/catkira/CIC.git
