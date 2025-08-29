@@ -46,6 +46,18 @@ set_property PACKAGE_PIN Y19 [get_ports {adc_dat_b_i[13]}]
 set_property PACKAGE_PIN W18 [get_ports {adc_dat_b_i[14]}]
 set_property PACKAGE_PIN Y18 [get_ports {adc_dat_b_i[15]}]
 
+set_property SLEW SLOW [get_ports trig_waiting_o]
+set_property SLEW SLOW [get_ports run_o]
+set_property DRIVE 4 [get_ports trig_waiting_o]
+set_property DRIVE 4 [get_ports run_o]
+set_property PULLTYPE PULLDOWN [get_ports trig_waiting_o]
+set_property PULLTYPE PULLDOWN [get_ports run_o]
+set_property IOSTANDARD LVCMOS18 [get_ports trig_waiting_o]
+set_property PACKAGE_PIN P15 [get_ports trig_waiting_o]
+set_property IOSTANDARD LVCMOS18 [get_ports run_o]
+set_property PACKAGE_PIN T10 [get_ports run_o]
+
+
 # clock input
 
 set_property IOSTANDARD DIFF_HSTL_I_18 [get_ports adc_clk_p_i]
@@ -112,15 +124,15 @@ set_property PACKAGE_PIN N15 [get_ports dac_rst_o]
 
 ### PWM
 
-set_property IOSTANDARD LVCMOS18 [get_ports {dac_pwm_o[*]}]
-set_property SLEW FAST [get_ports {dac_pwm_o[*]}]
-set_property DRIVE 12 [get_ports {dac_pwm_o[*]}]
+# set_property IOSTANDARD LVCMOS18 [get_ports {dac_pwm_o[*]}]
+# set_property SLEW FAST [get_ports {dac_pwm_o[*]}]
+# set_property DRIVE 12 [get_ports {dac_pwm_o[*]}]
 # set_property IOB TRUE [get_ports {dac_pwm_o[*]}]
 
-set_property PACKAGE_PIN T10 [get_ports {dac_pwm_o[0]}]
-set_property PACKAGE_PIN T11 [get_ports {dac_pwm_o[1]}]
-set_property PACKAGE_PIN P15 [get_ports {dac_pwm_o[2]}]
-set_property PACKAGE_PIN U13 [get_ports {dac_pwm_o[3]}]
+# set_property PACKAGE_PIN T10 [get_ports {dac_pwm_o[0]}]
+# set_property PACKAGE_PIN T11 [get_ports {dac_pwm_o[1]}]
+# set_property PACKAGE_PIN P15 [get_ports {dac_pwm_o[2]}]
+# set_property PACKAGE_PIN U13 [get_ports {dac_pwm_o[3]}]
 
 ### XADC
 
