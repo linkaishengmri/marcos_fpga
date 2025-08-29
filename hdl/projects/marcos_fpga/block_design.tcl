@@ -332,6 +332,12 @@ if {$part_variant=="Z20"} {
     connect_bd_net [get_bd_pins marga/gain_clk_o] [get_bd_ports gain_clk_o]
     create_bd_port -dir O -type clk gain_le_o
     connect_bd_net [get_bd_pins marga/gain_le_o] [get_bd_ports gain_le_o]
+
+    create_bd_port -dir O -type clk run_o
+    connect_bd_net [get_bd_pins marga/run_o] [get_bd_ports run_o]
+    create_bd_port -dir O -type clk trig_waiting_o
+    connect_bd_net [get_bd_pins marga/trig_waiting_o] [get_bd_ports trig_waiting_o]
+
     
 } elseif {$part_variant=="Z10"} {
     # Not enough pins on Z10 for trigger input (TODO: add trig_i elsewhere so
