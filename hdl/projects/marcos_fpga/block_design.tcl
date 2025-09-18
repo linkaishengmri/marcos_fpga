@@ -73,7 +73,7 @@ cell xilinx.com:ip:clk_wiz pll_0 {
     CLKOUT3_REQUESTED_OUT_FREQ $adc_clk_freq_2x
     CLKOUT3_REQUESTED_PHASE -67.5
     CLKOUT4_USED true
-    CLKOUT4_REQUESTED_OUT_FREQ 109.22667
+    CLKOUT4_REQUESTED_OUT_FREQ 122.88
     USE_RESET false
 } {
     clk_in1_p adc_clk_p_i
@@ -299,18 +299,32 @@ connect_bd_net [get_bd_pins marga/trig_o] [get_bd_ports trig_p_o]
 cell xilinx.com:ip:oddr:1.0 oddr_0
 connect_bd_net [get_bd_pins pll_0/clk_out1] [get_bd_pins oddr_0/clk_in]
 
+cell xilinx.com:ip:oddr:1.0 oddr_1
+connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_pins oddr_1/clk_in]
+
 
 cell xilinx.com:ip:util_ds_buf:2.1 ext_clk_0_buf {
     C_BUF_TYPE OBUFDS
 }
 
+cell xilinx.com:ip:util_ds_buf:2.1 ext_clk_1_buf {
+    C_BUF_TYPE OBUFDS
+}
+
 create_bd_port -dir O -type clk ext_clk_0_p_o
 create_bd_port -dir O -type clk ext_clk_0_n_o
+
+create_bd_port -dir O -type clk lo_diff_clk_p
+create_bd_port -dir O -type clk lo_diff_clk_n
+
 connect_bd_net [get_bd_pins oddr_0/clk_out] [get_bd_pins ext_clk_0_buf/OBUF_IN]
-
-
 connect_bd_net [get_bd_pins ext_clk_0_buf/OBUF_DS_P] [get_bd_ports ext_clk_0_p_o]
 connect_bd_net [get_bd_pins ext_clk_0_buf/OBUF_DS_N] [get_bd_ports ext_clk_0_n_o]
+
+
+connect_bd_net [get_bd_pins oddr_1/clk_out] [get_bd_pins ext_clk_1_buf/OBUF_IN]
+connect_bd_net [get_bd_pins ext_clk_1_buf/OBUF_DS_P] [get_bd_ports lo_diff_clk_p]
+connect_bd_net [get_bd_pins ext_clk_1_buf/OBUF_DS_N] [get_bd_ports lo_diff_clk_n]
 
 connect_bd_net [get_bd_pins exp_n_tri_io] [get_bd_pins nio_concat_0/Dout]
 connect_bd_net [get_bd_pins exp_p_tri_io] [get_bd_pins pio_concat_0/Dout]
@@ -323,8 +337,8 @@ if {$part_variant=="Z20"} {
     connect_bd_net [get_bd_ports trig_i] [get_bd_pins marga/trig_i]
 
     # LO clock output
-    create_bd_port -dir O -type clk lo_clk_out
-    connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_ports lo_clk_out]
+    # create_bd_port -dir O -type clk lo_clk_out
+    # connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_ports lo_clk_out]
 
     create_bd_port -dir O -type clk gain_si_o
     connect_bd_net [get_bd_pins marga/gain_si_o] [get_bd_ports gain_si_o]
