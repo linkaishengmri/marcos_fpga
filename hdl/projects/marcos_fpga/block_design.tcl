@@ -203,6 +203,11 @@ module rx_1 {
     rx_aresetn marga/rx1_rst_n_o
 }
 
+module vib_0 {
+    source projects/marcos_fpga/vib.tcl
+} {
+    vib_real_trunc_0/M_AXIS marga/PHASE_ADD_AXIS
+}
 if {$dsp_source=="OPENSOURCE"} {
     module tx_0 {
 	source projects/marcos_fpga/tx.tcl
@@ -290,6 +295,20 @@ cell xilinx.com:ip:xlconcat:2.1 nio_concat_0 {
 }
 connect_bd_net [get_bd_pins nio_concat_0/In0] [get_bd_pins spi_concat_0/dout]
 connect_bd_net [get_bd_pins nio_concat_0/In1] [get_bd_pins marga/tx_gate_o]
+
+# vibration reference dds
+# cell open-mri:user:DDS:1.0 vib_nco {
+# 	PHASE_DW 24
+# 	OUT_DW 16
+# 	USE_TAYLOR 1
+# 	LUT_DW 9
+# 	SIN_COS 1
+# 	NEGATIVE_SINE 1
+#     } {
+# 	clk /pll_0/clk_out1
+# 	S_AXIS_PHASE /marga/dds_vib_phase_axis_tdata_o
+# 	reset_n /rst_0/peripheral_aresetn
+#     }
 
 # trigger output
 create_bd_port -dir O -type data trig_p_o
