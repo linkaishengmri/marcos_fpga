@@ -19,7 +19,7 @@ cell xilinx.com:ip:axis_subset_converter:1.1 real_selector_0 {
     M_TDATA_NUM_BYTES 4
     TDATA_REMAP {16'b0, tdata[15:0]}
 } {
-    S_AXIS vib_nco/M_AXIS_OUT
+    S_AXIS vib_nco/M_AXIS_OUT_COS
 	aclk /pll_0/clk_out1
 	aresetn /rst_0/peripheral_aresetn
 }
