@@ -1,0 +1,1 @@
+../../submodules/marga/hdl/cic_dynamic_scaler.sv
