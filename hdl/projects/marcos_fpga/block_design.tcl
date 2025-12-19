@@ -6,12 +6,12 @@ if {$part_variant=="Z20"} {
     create_bd_port -dir I -from 15 -to 0 adc_dat_a_i
     create_bd_port -dir I -from 15 -to 0 adc_dat_b_i
 } elseif {$part_variant=="Z10"} {
-    create_bd_port -dir I -from 13 -to 0 adc_dat_a_i
-    create_bd_port -dir I -from 13 -to 0 adc_dat_b_i
+    create_bd_port -dir I -from 15 -to 0 adc_dat_a_i
+    create_bd_port -dir I -from 15 -to 0 adc_dat_b_i
     set adc_clk_freq 125
     set adc_clk_freq_2x 250
     set rx_fifo_length 8192
-    set marga_addr_width 18
+    set marga_addr_width 17
 } else {
     puts "** ERROR: Unknown part variant '$part_variant'!"
     exit 1
@@ -131,23 +131,29 @@ if {$part_variant=="Z20"} {
     }
 } elseif {$part_variant=="Z10"} {
     # Create axis_red_pitaya_adc
-    cell pavel-demin:user:axis_red_pitaya_adc:2.0 adc_0 {} {
+    cell pavel-demin:user:axis_stemlab_sdr_adc adc_0 {
+	ADC_DATA_WIDTH 16
+    } {
 	aclk pll_0/clk_out1
 	adc_dat_a adc_dat_a_i
 	adc_dat_b adc_dat_b_i
 	adc_csn adc_csn_o
     }
 
-    # Create axis_red_pitaya_dac
-    cell pavel-demin:user:axis_red_pitaya_dac:1.0 dac_0 {} {
+    # Create axis_stemlab_sdr_dac
+    cell pavel-demin:user:axis_stemlab_sdr_dac dac_0 {
+	DAC_DATA_WIDTH 14
+    } {
 	aclk pll_0/clk_out1
 	ddr_clk pll_0/clk_out2
+	wrt_clk pll_0/clk_out3
 	locked pll_0/locked
 	dac_clk dac_clk_o
 	dac_rst dac_rst_o
 	dac_sel dac_sel_o
 	dac_wrt dac_wrt_o
 	dac_dat dac_dat_o
+	s_axis_tvalid const_0/dout
     }
 } else {
     puts "** ERROR: Unknown part variant '$part_variant'!"
@@ -269,9 +275,9 @@ cell xilinx.com:ip:xlconcat:2.1 spi_concat_0 {
 }
 
 # Expansion connector
-create_bd_port -dir O -from 7 -to 0 exp_p_tri_io
+# create_bd_port -dir O -from 7 -to 0 exp_p_tri_io
 create_bd_port -dir O -from 7 -to 0 exp_n_tri_io
-create_bd_port -dir I -type data exp_p_tri_io_i
+# create_bd_port -dir I -type data exp_p_tri_io_i
 
 cell xilinx.com:ip:xlconcat:2.1 pio_concat_0 {
     NUM_PORTS 6
@@ -283,7 +289,7 @@ cell xilinx.com:ip:xlconcat:2.1 pio_concat_0 {
     In5 marga/fhdo_sdo_o
 }
 
-connect_bd_net [get_bd_pins exp_p_tri_io_i] [get_bd_pins marga/fhdo_sdi_i]
+# connect_bd_net [get_bd_pins exp_p_tri_io_i] [get_bd_pins marga/fhdo_sdi_i]
 
 cell xilinx.com:ip:xlconcat:2.1 nio_concat_0 {
     NUM_PORTS 2
@@ -327,7 +333,10 @@ connect_bd_net [get_bd_pins ext_clk_1_buf/OBUF_DS_P] [get_bd_ports lo_diff_clk_p
 connect_bd_net [get_bd_pins ext_clk_1_buf/OBUF_DS_N] [get_bd_ports lo_diff_clk_n]
 
 connect_bd_net [get_bd_pins exp_n_tri_io] [get_bd_pins nio_concat_0/Dout]
-connect_bd_net [get_bd_pins exp_p_tri_io] [get_bd_pins pio_concat_0/Dout]
+# connect_bd_net [get_bd_pins exp_p_tri_io] [get_bd_pins pio_concat_0/Dout]
+
+create_bd_port -dir O -type clk gain_sel_o
+connect_bd_net [get_bd_pins rxgain_slice/Dout] [get_bd_ports gain_sel_o]
 
 if {$part_variant=="Z20"} {
     create_bd_port -dir O -type data rx_gate_o
@@ -355,7 +364,29 @@ if {$part_variant=="Z20"} {
 } elseif {$part_variant=="Z10"} {
     # Not enough pins on Z10 for trigger input (TODO: add trig_i elsewhere so
     # that both Z10 and Z20 can be externally triggered)
-    connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins marga/trig_i]
+    # connect_bd_net [get_bd_pins const_0/dout] [get_bd_pins marga/trig_i]
+    create_bd_port -dir O -type data rx_gate_o
+    connect_bd_net [get_bd_ports rx_gate_o] [get_bd_pins marga/rx_gate_o]
+
+    create_bd_port -dir I -type data trig_i
+    connect_bd_net [get_bd_ports trig_i] [get_bd_pins marga/trig_i]
+
+    # LO clock output
+    # create_bd_port -dir O -type clk lo_clk_out
+    # connect_bd_net [get_bd_pins pll_0/clk_out4] [get_bd_ports lo_clk_out]
+
+    create_bd_port -dir O -type clk gain_si_o
+    connect_bd_net [get_bd_pins marga/gain_si_o] [get_bd_ports gain_si_o]
+    create_bd_port -dir O -type clk gain_clk_o
+    connect_bd_net [get_bd_pins marga/gain_clk_o] [get_bd_ports gain_clk_o]
+    create_bd_port -dir O -type clk gain_le_o
+    connect_bd_net [get_bd_pins marga/gain_le_o] [get_bd_ports gain_le_o]
+
+    create_bd_port -dir O -type data trig_waiting_o
+    connect_bd_net [get_bd_pins marga/trig_waiting_o] [get_bd_ports trig_waiting_o]
+    create_bd_port -dir O -type data run_o
+    connect_bd_net [get_bd_pins marga/run_o] [get_bd_ports run_o]
+    
 } else {
     puts "** ERROR: Unknown part variant '$part_variant'!"
     exit 1

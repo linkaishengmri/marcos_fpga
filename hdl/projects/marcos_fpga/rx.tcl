@@ -187,7 +187,7 @@ cell xilinx.com:ip:cic_compiler:4.0 cic_real {
 	NUMBER_OF_STAGES 6
 	SAMPLE_RATE_CHANGES Programmable
 	MINIMUM_RATE 4
-	MAXIMUM_RATE 8192
+	MAXIMUM_RATE 4096
 	FIXED_OR_INITIAL_RATE 512
 	RATESPECIFICATION Sample_Period
 	SAMPLEPERIOD 1
@@ -209,7 +209,7 @@ cell xilinx.com:ip:cic_compiler:4.0 cic_real {
 	NUMBER_OF_STAGES 6
 	SAMPLE_RATE_CHANGES Programmable
 	MINIMUM_RATE 4
-	MAXIMUM_RATE 8192
+	MAXIMUM_RATE 4096
 	FIXED_OR_INITIAL_RATE 512
 	RATESPECIFICATION Sample_Period
 	SAMPLEPERIOD 1
@@ -227,7 +227,7 @@ cell xilinx.com:ip:cic_compiler:4.0 cic_real {
 
 cell xilinx.com:ip:axis_combiner:1.1 comb_iqmerge {
 	NUM_SI 2
-	TDATA_NUM_BYTES 14
+	TDATA_NUM_BYTES 13
 } {
 	S00_AXIS cic_real/M_AXIS_DATA
 	S01_AXIS cic_imag/M_AXIS_DATA

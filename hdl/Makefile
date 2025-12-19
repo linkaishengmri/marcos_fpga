@@ -24,7 +24,7 @@
 
 LD_LIBRARY_PATH =
 NAME = marcos_fpga
-PART_VARIANT ?= Z20
+PART_VARIANT ?= Z10
 DSP_SOURCE ?= OPENSOURCE
 
 ifeq ($(PART_VARIANT), Z20)
@@ -42,7 +42,7 @@ exit:
 endif
 
 CORES_PAVEL = axi_cfg_register_v1_0 axis_constant_v1_0 \
-        axis_$(HWNAME)_adc_$(ADCVER) axis_$(HWNAME)_dac_v1_0 \
+        axis_stemlab_sdr_adc_v1_0 axis_stemlab_sdr_dac_v1_0 \
         axis_zeroer_v1_0 axis_variable_v1_0 axis_interpolator_v1_0 \
         axi_sts_register_v1_0
 
