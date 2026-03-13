@@ -269,9 +269,9 @@ cell xilinx.com:ip:xlconcat:2.1 spi_concat_0 {
 }
 
 # Expansion connector
-create_bd_port -dir O -from 7 -to 0 exp_p_tri_io
+# create_bd_port -dir O -from 7 -to 0 exp_p_tri_io
 create_bd_port -dir O -from 7 -to 0 exp_n_tri_io
-create_bd_port -dir I -type data exp_p_tri_io_i
+# create_bd_port -dir I -type data exp_p_tri_io_i
 
 cell xilinx.com:ip:xlconcat:2.1 pio_concat_0 {
     NUM_PORTS 6
@@ -283,7 +283,7 @@ cell xilinx.com:ip:xlconcat:2.1 pio_concat_0 {
     In5 marga/fhdo_sdo_o
 }
 
-connect_bd_net [get_bd_pins exp_p_tri_io_i] [get_bd_pins marga/fhdo_sdi_i]
+# connect_bd_net [get_bd_pins exp_p_tri_io_i] [get_bd_pins marga/fhdo_sdi_i]
 
 cell xilinx.com:ip:xlconcat:2.1 nio_concat_0 {
     NUM_PORTS 2
@@ -327,7 +327,10 @@ connect_bd_net [get_bd_pins ext_clk_1_buf/OBUF_DS_P] [get_bd_ports lo_diff_clk_p
 connect_bd_net [get_bd_pins ext_clk_1_buf/OBUF_DS_N] [get_bd_ports lo_diff_clk_n]
 
 connect_bd_net [get_bd_pins exp_n_tri_io] [get_bd_pins nio_concat_0/Dout]
-connect_bd_net [get_bd_pins exp_p_tri_io] [get_bd_pins pio_concat_0/Dout]
+# connect_bd_net [get_bd_pins exp_p_tri_io] [get_bd_pins pio_concat_0/Dout]
+
+create_bd_port -dir O -type clk gain_sel_o
+connect_bd_net [get_bd_pins rxgain_slice/Dout] [get_bd_ports gain_sel_o]
 
 if {$part_variant=="Z20"} {
     create_bd_port -dir O -type data rx_gate_o
