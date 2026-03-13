@@ -73,7 +73,7 @@ cell xilinx.com:ip:clk_wiz pll_0 {
     CLKOUT3_REQUESTED_OUT_FREQ $adc_clk_freq_2x
     CLKOUT3_REQUESTED_PHASE -67.5
     CLKOUT4_USED true
-    CLKOUT4_REQUESTED_OUT_FREQ 122.88
+    CLKOUT4_REQUESTED_OUT_FREQ 113.42769
     USE_RESET false
 } {
     clk_in1_p adc_clk_p_i
